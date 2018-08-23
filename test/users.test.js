@@ -22,7 +22,7 @@ describe('User endpoints', function() {
 
 
   before(function () {
-    return mongoose.connect(TEST_DATABASE_URL, {autoIndex: false});
+    return mongoose.connect(TEST_DATABASE_URL, {autoIndex: false}, {useNewUrlParser: true});
   });
   
   beforeEach(function() {

@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 const seedUsers = require('../db/users');
 
-mongoose.connect(DATABASE_URL)
+mongoose.connect(DATABASE_URL, {useNewUrlParser: true})
   .then(() => {
     return mongoose.connection.db.dropDatabase()
       .then(result => {

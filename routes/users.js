@@ -130,8 +130,13 @@ router.post('/users', bodyParser, (req, res, next) => {
       return res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
     .catch(err => {
-      if (err.code === 11000) {
-        err = new Error('The username already exists');
+      // if (err.code === 11000) {
+      //   err = new Error('The username already exists.');
+      // }
+      if (err.errmsg.includes('$email_1 dup key:')) {
+        err = new Error('The email is already registered.');
+      } else if (err.errmsg.includes('$username_1 dup key:')) {
+        err = new Error('The username already exists.');
       }
       next(err);
     });
