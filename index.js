@@ -7,6 +7,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
+const bodyParser = require('body-parser').json();
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
@@ -14,6 +15,7 @@ const jwtStrategy = require('./passport/jwt');
 const localStrategy = require('./passport/local');
 
 const usersRouter = require('./routes/users');
+const videoRouter = require('./routes/videos');
 const authRouter = require('./routes/auth');
 
 const app = express();
@@ -30,14 +32,17 @@ app.use(
   })
 );
 
-app.use('/api', usersRouter);
-app.use('/api', authRouter);
+app.use(bodyParser);
 
-passport.use(localStrategy);
-passport.use(jwtStrategy);
-app.use(passport.authenticate('jwt',
-  {session: false, failWithError: true})
-);
+app.use('/api', usersRouter);
+app.use('/api', videoRouter);
+// app.use('/api', authRouter);
+
+// passport.use(localStrategy);
+// passport.use(jwtStrategy);
+// app.use(passport.authenticate('jwt',
+//   {session: false, failWithError: true})
+// );
 
 function runServer(port = PORT) {
   const server = app

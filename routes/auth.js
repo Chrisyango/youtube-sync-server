@@ -2,7 +2,6 @@
 
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser').json();
 
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -19,7 +18,7 @@ function createAuthToken(user) {
   });
 }
 
-router.post('/auth/login', bodyParser, localAuth, (req, res) => {
+router.post('/auth/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user);
   return res.json({authToken});
 });
